@@ -1,4 +1,4 @@
-import type { Task } from "../types/task";
+import type { Task } from "../schemas/task";
 
 type Props = {
   task: Task;

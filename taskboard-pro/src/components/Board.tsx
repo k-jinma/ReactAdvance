@@ -1,39 +1,27 @@
+// src/components/Board.tsx(第1回の内容を全置換)
 import { useState } from "react";
-import type { Task, TaskStatus } from "../types/task";
+import type { Task, TaskInput } from "../schemas/task";
 import { dummyTasks } from "../data/dummyTasks";
 import { Column } from "./Column";
+import { TaskForm } from "./TaskForm";
 
 export function Board() {
-  const [tasks, setTasks] = useState<Task[]>(dummyTasks); // setTasksを追加
-  const [newTitle, setNewTitle] = useState("");
+  const [tasks, setTasks] = useState<Task[]>(dummyTasks);
 
-  const handleAdd = (status: TaskStatus) => {
-    if (!newTitle.trim()) return;
-
+  const handleAdd = (input: TaskInput) => {
     const newTask: Task = {
       id: `t-${Date.now()}`,
-      title: newTitle,
-      description: "",
-      status,
-      priority: "medium",
-      assignee: "未割り当て",
+      status: "todo",
       createdAt: new Date().toISOString().slice(0, 10),
+      ...input,
     };
-
     setTasks((prev) => [...prev, newTask]);
-    setNewTitle("");
   };
 
   return (
     <div className="board">
       <div className="board__toolbar">
-        <input
-          className="board__input"
-          value={newTitle}
-          onChange={(e) => setNewTitle(e.target.value)}
-          placeholder="新しいタスクのタイトル"
-        />
-        <button onClick={() => handleAdd("todo")}>+ ToDoに追加</button>
+        <TaskForm onSubmit={handleAdd} />
       </div>
       <div className="board__columns">
         <Column status="todo" title="ToDo" tasks={tasks} />

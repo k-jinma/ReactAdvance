@@ -156,3 +156,77 @@
   gap: 12px;
   align-items: flex-start;
 }
+
+/* src/App.css の末尾に追記 */
+.task-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.task-form__row {
+  display: flex;
+  gap: 8px;
+}
+
+.task-form__row--inline {
+  flex-direction: row;
+}
+
+.task-form__field {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 4px;
+}
+
+.task-form__label {
+  font-size: 12px;
+  color: #5e6c84;
+  font-weight: 600;
+}
+
+.task-form__input,
+.task-form__textarea {
+  padding: 8px 12px;
+  border: 1px solid #dfe1e6;
+  border-radius: 3px;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.task-form__input:focus,
+.task-form__textarea:focus {
+  outline: none;
+  border-color: #0052cc;
+}
+
+.task-form__error {
+  font-size: 12px;
+  color: #bf2600;
+}
+
+.task-form__actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.task-form__submit {
+  padding: 8px 16px;
+  background: #0052cc;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.task-form__submit:hover {
+  background: #0747a6;
+}
+
+.task-form__submit:disabled {
+  background: #a5adba;
+  cursor: not-allowed;
+}
