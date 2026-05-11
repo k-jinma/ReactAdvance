@@ -1,4 +1,4 @@
-import type { Task, TaskStatus } from "../types/task";
+import type { Task, TaskStatus } from "../schemas/task";
 import { TaskCard } from "./TaskCard";
 
 type Props = {
