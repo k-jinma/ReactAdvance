@@ -8,6 +8,7 @@ import { TaskForm } from "./TaskForm";
 export function Board() {
   const [tasks, setTasks] = useState<Task[]>(dummyTasks);
 
+  // タスク追加のハンドラー TaskForm から TaskInput を受け取って、Task に変換してから state に追加する
   const handleAdd = (input: TaskInput) => {
     const newTask: Task = {
       id: `t-${Date.now()}`,
