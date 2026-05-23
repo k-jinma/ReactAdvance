@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# .gitignore に追記(もし含まれていなければ)
+.env*.local
