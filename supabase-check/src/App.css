@@ -1,0 +1,15 @@
+/* src/App.css(置き換え) */
+.app {
+  max-width: 640px;
+  margin: 24px auto;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #172b4d;
+}
+.add { display: flex; gap: 8px; margin-bottom: 16px; }
+.add input { flex: 1; padding: 6px 8px; border: 1px solid #dfe1e6; border-radius: 6px; }
+.add button { padding: 6px 14px; border: none; background: #0052cc; color: #fff; border-radius: 6px; cursor: pointer; }
+.add button:disabled { background: #a5adba; cursor: not-allowed; }
+.rows { width: 100%; border-collapse: collapse; }
+.rows th, .rows td { text-align: left; padding: 6px 8px; border-bottom: 1px solid #f0f1f3; font-size: 14px; }
+.rows th { color: #6b778c; font-weight: 600; }
+.error { color: #bf2600; }
