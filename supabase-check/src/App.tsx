@@ -81,7 +81,7 @@ export default function App() {
       ) : isError ? (
         <p className="error">エラー: {error.message}</p>
       ) : (
-        <table className="rows">
+        <table className="rows" border={1}>
           <thead>
             <tr><th>id</th><th>title</th><th>status</th><th>created_at</th></tr>
           </thead>
