@@ -1,107 +1,120 @@
+/* ===== レイアウト ===== */
 .app {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
 }
 
 .app__header {
-  padding: 12px 24px;
-  background: #0052cc;
-  color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
 }
 
-.app__header h1 {
-  margin: 0;
-  font-size: 18px;
+.app__title {
+  font-size: 22px;
+  font-weight: 700;
 }
 
-.app__main {
-  flex: 1;
-  overflow: auto;
-  padding: 16px;
+.app__subtitle {
+  margin-top: 4px;
+  font-size: 13px;
+  color: #6b778c;
 }
 
-.board {
-  display: flex;
+/* ===== ボード ===== */
+.board__toolbar {
+  margin-bottom: 16px;
+}
+
+.board__columns {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
-  align-items: flex-start;
 }
 
+.board__loading,
+.board__error {
+  padding: 24px;
+  text-align: center;
+  color: #6b778c;
+}
+
+.board__error {
+  color: #bf2600;
+}
+
+/* ===== レーン(カラム) ===== */
 .column {
-  flex: 1;
-  min-width: 240px;
   background: #ebecf0;
-  border-radius: 4px;
-  padding: 8px;
-}
-
-.column__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 4px 8px;
+  border-radius: 8px;
+  padding: 10px;
+  min-height: 200px;
 }
 
 .column__title {
-  margin: 0;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.column__count {
-  background: #dfe1e6;
+  font-size: 13px;
+  font-weight: 700;
   color: #5e6c84;
-  font-size: 12px;
-  padding: 2px 8px;
-  border-radius: 10px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
-.column__body {
+.column__cards {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin-top: 8px;
 }
 
+/* ===== タスクカード ===== */
 .task-card {
-  background: white;
-  padding: 12px;
-  border-radius: 3px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
+  background: #fff;
+  border-radius: 6px;
+  padding: 10px;
+  box-shadow: 0 1px 2px rgba(9, 30, 66, 0.16);
 }
 
-.task-card:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+.task-card__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
 }
 
 .task-card__title {
   font-size: 14px;
-  margin-bottom: 8px;
-}
-
-.task-card__meta {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-  color: #5e6c84;
-}
-
-.task-card__priority {
-  padding: 2px 6px;
-  border-radius: 3px;
   font-weight: 600;
+  word-break: break-word;
 }
 
-.task-card__priority--high {
+.task-card__delete {
+  border: none;
+  background: transparent;
+  color: #97a0af;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 4px;
+  border-radius: 3px;
+}
+
+.task-card__delete:hover {
   background: #ffebe6;
   color: #bf2600;
 }
 
-.task-card__priority--medium {
-  background: #fffae6;
-  color: #974f00;
+.task-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.task-card__priority {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 10px;
+  text-transform: uppercase;
 }
 
 .task-card__priority--low {
@@ -109,124 +122,158 @@
   color: #006644;
 }
 
-.board {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.task-card__priority--mid {
+  background: #fffae6;
+  color: #974f0c;
 }
 
-.board__toolbar {
-  display: flex;
-  gap: 8px;
-  padding: 8px;
-  background: white;
-  border-radius: 4px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-.board__input {
-  flex: 1;
-  padding: 8px 12px;
-  border: 1px solid #dfe1e6;
-  border-radius: 3px;
-  font-size: 14px;
-}
-
-.board__input:focus {
-  outline: none;
-  border-color: #0052cc;
-}
-
-.board__toolbar button {
-  padding: 8px 16px;
-  background: #0052cc;
-  color: white;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.board__toolbar button:hover {
-  background: #0747a6;
-}
-
-.board__columns {
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
-}
-
-/* src/App.css の末尾に追記 */
-.task-form {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: 100%;
-}
-
-.task-form__row {
-  display: flex;
-  gap: 8px;
-}
-
-.task-form__row--inline {
-  flex-direction: row;
-}
-
-.task-form__field {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  gap: 4px;
-}
-
-.task-form__label {
-  font-size: 12px;
-  color: #5e6c84;
-  font-weight: 600;
-}
-
-.task-form__input,
-.task-form__textarea {
-  padding: 8px 12px;
-  border: 1px solid #dfe1e6;
-  border-radius: 3px;
-  font-size: 14px;
-  font-family: inherit;
-}
-
-.task-form__input:focus,
-.task-form__textarea:focus {
-  outline: none;
-  border-color: #0052cc;
-}
-
-.task-form__error {
-  font-size: 12px;
+.task-card__priority--high {
+  background: #ffebe6;
   color: #bf2600;
 }
 
-.task-form__actions {
+.task-card__assignee {
+  font-size: 12px;
+  color: #6b778c;
+}
+
+.task-card__status {
+  margin-top: 8px;
+  width: 100%;
+  padding: 4px 6px;
+  font-size: 13px;
+  border: 1px solid #dfe1e6;
+  border-radius: 4px;
+  background: #fff;
+}
+
+/* ===== 追加フォーム ===== */
+.task-form__row {
   display: flex;
-  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.task-form__input,
+.task-form__select {
+  padding: 6px 8px;
+  font-size: 14px;
+  border: 1px solid #dfe1e6;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.task-form__input {
+  flex: 1 1 160px;
+  min-width: 120px;
 }
 
 .task-form__submit {
-  padding: 8px 16px;
-  background: #0052cc;
-  color: white;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
+  padding: 6px 16px;
   font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  background: #0052cc;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .task-form__submit:hover {
   background: #0747a6;
 }
 
-.task-form__submit:disabled {
-  background: #a5adba;
-  cursor: not-allowed;
+.task-form__error {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #bf2600;
+}
+
+/* ===== レスポンシブ ===== */
+@media (max-width: 720px) {
+  .board__columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== 第4.5回 ― ドラッグ ===== */
+.task-card {
+  cursor: grab;                 /* 掴めることを示す */
+}
+.task-card:active {
+  cursor: grabbing;             /* 掴んでいる最中 */
+}
+.column--over {
+  background: #e9f2ff;          /* ドロップ先として光らせる */
+  outline: 2px dashed #4c9aff;
+  outline-offset: -2px;
+}
+/* src/App.css の末尾に追記(第5回 ― ログイン画面とヘッダー) */
+.login {
+  max-width: 360px;
+  margin: 80px auto;
+  padding: 32px;
+  border: 1px solid #dfe1e6;
+  border-radius: 8px;
+  text-align: center;
+}
+.login__form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 24px 0 12px;
+}
+.login__form input {
+  padding: 10px 12px;
+  border: 1px solid #dfe1e6;
+  border-radius: 4px;
+  font-size: 14px;
+}
+.login__form button {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background: #0c66e4;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+.login__form button:disabled {
+  opacity: 0.6;
+}
+.login__error {
+  color: #bf2600;
+  font-size: 13px;
+  margin: 0;
+}
+.login__switch {
+  border: none;
+  background: transparent;
+  color: #0c66e4;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  border-bottom: 1px solid #dfe1e6;
+}
+.app-header__user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: #44546f;
+}
+.app-header__user button {
+  padding: 6px 12px;
+  border: 1px solid #dfe1e6;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 13px;
+  cursor: pointer;
 }

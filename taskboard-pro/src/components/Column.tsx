@@ -1,3 +1,4 @@
+import { useDroppable } from "@dnd-kit/core";
 import type { Task, TaskStatus } from "../schemas/task";
 import { TaskCard } from "./TaskCard";
 
@@ -8,16 +9,16 @@ type Props = {
 };
 
 export function Column({ status, title, tasks }: Props) {
-  const filtered = tasks.filter((t) => t.status === status);
+  const { setNodeRef, isOver } = useDroppable({ id: status });
+  const items = tasks.filter((task) => task.status === status);
 
   return (
-    <div className="column">
-      <div className="column__header">
-        <h2 className="column__title">{title}</h2>
-        <span className="column__count">{filtered.length}</span>
-      </div>
-      <div className="column__body">
-        {filtered.map((task) => (
+    <div ref={setNodeRef} className={`column ${isOver ? "column--over" : ""}`}>
+      <h2 className="column__title">
+        {title}({items.length})
+      </h2>
+      <div className="column__cards">
+        {items.map((task) => (
           <TaskCard key={task.id} task={task} />
         ))}
       </div>

@@ -1,16 +1,27 @@
+import { Routes, Route } from "react-router-dom";
 import { Board } from "./components/Board";
+import { LoginPage } from "./pages/LoginPage";
+import { ProtectedRoute } from "./components/ProtectedRoute";
+import { Header } from "./components/Header";
 import "./App.css";
 
 function App() {
   return (
-    <div className="app">
-      <header className="app__header">
-        <h1>TaskBoard Pro</h1>
-      </header>
-      <main className="app__main">
-        <Board />
-      </main>
-    </div>
+    <Routes>
+
+      <Route path="/login" element={<LoginPage />} />
+
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <Header />
+            <Board />
+          </ProtectedRoute>
+        }
+      />
+
+    </Routes>
   );
 }
 
