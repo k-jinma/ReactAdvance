@@ -26,7 +26,6 @@ export function taskInputToInsert(input: TaskInput, projectId: string): TaskInse
     title: input.title,
     assignee: input.assignee,
     priority: input.priority,
-    // 期限未入力はフォームから空文字 "" で届くため、null に変換してDBへ渡す
-    due_date: input.dueDate ? input.dueDate : null,
+    due_date: input.dueDate ?? null,
   };
 }

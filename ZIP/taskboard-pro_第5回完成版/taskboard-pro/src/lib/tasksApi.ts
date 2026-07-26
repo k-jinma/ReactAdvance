@@ -13,7 +13,7 @@ export async function fetchTasks(): Promise<Task[]> {
   if (error) throw error;
   return data.map(rowToTask);
 }
- 
+
 export async function createTask(input: TaskInput): Promise<Task> {
   const { data, error } = await supabase
     .from("tasks")
