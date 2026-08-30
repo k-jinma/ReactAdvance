@@ -4,7 +4,7 @@ type Props = {
     candidate: Candidate;
 }
 
-export function CandidateCard({ candidate }: Props){
+export function CandidateCard({ candidate }: Props){ //Props型からキーcandidateの値を取り出す
     return (
         <li className="card">
             <span className="card__name">{candidate.name}</span>
