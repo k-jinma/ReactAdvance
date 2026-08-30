@@ -1,0 +1,70 @@
+/* src/App.css(丸ごと置き換え ― この演習で使う全スタイル) */
+.app {
+  max-width: 480px;
+  margin: 40px auto;
+  padding: 0 16px;
+}
+
+.app__title {
+  font-size: 22px;
+  margin-bottom: 16px;
+}
+
+/* 合計バー(ステップ4で使う) */
+.total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  background: #e9f2ff;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.total__label {
+  font-weight: 700;
+}
+
+/* 候補の一覧とカード */
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: #fff;
+  border: 1px solid #dfe1e6;
+  border-radius: 8px;
+}
+
+.card__name {
+  flex: 1;
+  font-weight: 600;
+}
+
+.card__count {
+  color: #6b778c;
+  font-size: 14px;
+}
+
+/* ボタン共通 */
+button {
+  padding: 6px 12px;
+  font-size: 14px;
+  border: 1px solid #dfe1e6;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #f4f5f7;
+}
