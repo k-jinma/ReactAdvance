@@ -44,6 +44,39 @@ export type Database = {
         };
         Relationships: [];
       };
+      task_attachments: {
+        Row: {
+          id: string;
+          task_id: string;
+          file_name: string;
+          storage_path: string;
+          mime_type: string;
+          size: number;
+          created_by: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          task_id: string;
+          file_name: string;
+          storage_path: string;
+          mime_type: string;
+          size: number;
+          created_by?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          task_id?: string;
+          file_name?: string;
+          storage_path?: string;
+          mime_type?: string;
+          size?: number;
+          created_by?: string | null;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;
