@@ -1,47 +1,45 @@
-// src/components/TaskDetailModal.tsx(新規作成 ― まずは見た目だけ)
+// src/components/TaskDetailModal.tsx(更新 ― ダミーを本物に置き換え)
 import type { Task } from "../schemas/task";
-import { FileDropzone } from "./FileDropzone";   // ← 追加
+import { useAttachments } from "../hooks/useAttachments";               // ← 追加
+import { useUploadAttachments } from "../hooks/useUploadAttachments";   // ← 追加
+import { FileDropzone } from "./FileDropzone";
 
 type Props = {
   task: Task;
   onClose: () => void;
 };
 
-// ダミーデータ(表示の確認用。ステップ4で本物に置き換える)
-const dummyAttachments = [
-  { id: "1", fileName: "画面設計書.pdf", size: 240_000 },
-  { id: "2", fileName: "スクリーンショット.png", size: 80_000 },
-];
+// ← 削除:dummyAttachments はもう使わない
 
 export function TaskDetailModal({ task, onClose }: Props) {
-  return (
-    // 背景(暗幕)をクリックしたら閉じる
-    <div className="modal__backdrop" onClick={onClose}>
-      {/* 本体のクリックは背景へ伝えない(伝わると閉じてしまう) */}
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <div className="modal__header">
-          <h2 className="modal__title">{task.title}</h2>
-          <button type="button" className="modal__close" onClick={onClose}>
-            ×
-          </button>
-        </div>
+  // ← 追加:このタスクの添付一覧と、アップロード
+  const { data: attachments = [], isPending, isError, error } = useAttachments(task.id);
+  const upload = useUploadAttachments(task.id);
 
-        <div className="modal__meta">
-          <span className={`task-card__priority task-card__priority--${task.priority}`}>
-            {task.priority}
-          </span>
-          <span>担当:{task.assignee}</span>
-          <span>状態:{task.status}</span>
-        </div>
+  return (
+    <div className="modal__backdrop" onClick={onClose}>
+      <div className="modal" onClick={(e) => e.stopPropagation()}>
+        {/* ...(header / meta は変更なし) */}
 
         <h3 className="modal__section">添付ファイル</h3>
 
         <FileDropzone
-          onFiles={(files) => console.log(files.map((f) => f.name))}   // ← 追加:まずは名前を出すだけ
+          onFiles={(files) => upload.mutate(files)}   // ← 変更:console.log → アップロード
+          disabled={upload.isPending}                 // ← 追加:アップロード中は受け付けない
         />
-        
+        {upload.isError && (                          // ← 追加
+          <p className="modal__error">アップロードに失敗しました: {upload.error.message}</p>
+        )}
+
+        {/* ← 追加:読み込み中・エラー・0件の表示 */}
+        {isPending && <p className="modal__note">読み込み中...</p>}
+        {isError && <p className="modal__error">エラー: {error.message}</p>}
+        {!isPending && !isError && attachments.length === 0 && (
+          <p className="modal__note">まだ添付はありません</p>
+        )}
+
         <ul className="attachment-list">
-          {dummyAttachments.map((a) => (
+          {attachments.map((a) => (                   // ← 変更:dummyAttachments → attachments
             <li key={a.id} className="attachment">{a.fileName}</li>
           ))}
         </ul>
