@@ -3,6 +3,8 @@ import type { Task } from "../schemas/task";
 import { useAttachments } from "../hooks/useAttachments";               // ← 追加
 import { useUploadAttachments } from "../hooks/useUploadAttachments";   // ← 追加
 import { FileDropzone } from "./FileDropzone";
+import { AttachmentItem } from "./AttachmentItem";   // ← 追加
+import { useDeleteAttachment } from "../hooks/useDeleteAttachment";   // ← 追加
 
 type Props = {
   task: Task;
@@ -15,6 +17,7 @@ export function TaskDetailModal({ task, onClose }: Props) {
   // ← 追加:このタスクの添付一覧と、アップロード
   const { data: attachments = [], isPending, isError, error } = useAttachments(task.id);
   const upload = useUploadAttachments(task.id);
+  const remove = useDeleteAttachment(task.id);   // ← 追加
 
   return (
     <div className="modal__backdrop" onClick={onClose}>
@@ -39,8 +42,16 @@ export function TaskDetailModal({ task, onClose }: Props) {
         )}
 
         <ul className="attachment-list">
-          {attachments.map((a) => (                   // ← 変更:dummyAttachments → attachments
-            <li key={a.id} className="attachment">{a.fileName}</li>
+          {attachments.map((attachment) => (
+            <AttachmentItem
+              key={attachment.id}
+              attachment={attachment}
+              onDelete={() => {                                                   // ← 変更
+                if (confirm(`「${attachment.fileName}」を削除しますか?`)) {
+                  remove.mutate(attachment);
+                }
+              }}
+            />
           ))}
         </ul>
       </div>

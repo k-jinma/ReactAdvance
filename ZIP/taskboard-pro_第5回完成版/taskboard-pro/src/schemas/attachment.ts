@@ -8,4 +8,5 @@ export type Attachment = {
   mimeType: string;     // "image/png" / "application/pdf" など
   size: number;         // バイト数
   createdAt: string;
+  signedUrl: string;    // ← 追加:有効期限付きの閲覧URL(一覧取得のたびに発行し直す)
 };

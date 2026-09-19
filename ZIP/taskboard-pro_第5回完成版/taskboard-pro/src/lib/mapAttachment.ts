@@ -3,7 +3,7 @@ import type { Attachment } from '../schemas/attachment';
 
 type AttachmentRow = Database['public']['Tables']['task_attachments']['Row'];
 
-export function rowToAttachment(row: AttachmentRow): Attachment {
+export function rowToAttachment(row: AttachmentRow, signedUrl: string): Attachment {
       return {
     id: row.id,
     taskId: row.task_id,
@@ -12,5 +12,6 @@ export function rowToAttachment(row: AttachmentRow): Attachment {
     mimeType: row.mime_type,
     size: row.size,
     createdAt: row.created_at,
+    signedUrl,   // ← 追加:これを入れ忘れると画面まで値が届かない
   };
 }
