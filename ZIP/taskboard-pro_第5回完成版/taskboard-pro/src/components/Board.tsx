@@ -12,11 +12,20 @@ import { useCreateTask } from "../hooks/useCreateTask";
 import { useUpdateTaskStatus } from "../hooks/useUpdateTaskStatus";
 import { Column } from "./Column";
 import { TaskForm } from "./TaskForm";
+import { useState } from "react";                          // ← 追加
+import { TaskDetailModal } from "./TaskDetailModal";      // ← 追加
+
 
 export function Board() {
   const { data: tasks = [], isPending, isError, error } = useTasks();
   const createTask = useCreateTask();
   const updateStatus = useUpdateTaskStatus();
+    // ← 追加:いま詳細を開いているタスクのID(null なら閉じている)
+  const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
+  
+  // ← 追加:selectedTaskId と同じ id のタスク1件を tasks の中から探す
+  // (見つからなければ undefined = モーダルを出さない)
+  const selectedTask = tasks.find((task) => task.id === selectedTaskId);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } })
@@ -52,12 +61,22 @@ export function Board() {
         onDragEnd={handleDragEnd}
       >
         <div className="board__columns">
-          <Column status="todo" title="ToDo" tasks={tasks} />
-          <Column status="doing" title="Doing" tasks={tasks} />
-          <Column status="review" title="Review" tasks={tasks} />
-          <Column status="done" title="Done" tasks={tasks} />
+          {/* ← 変更:onOpenTask を渡す(4つとも) */}
+          <Column status="todo" title="ToDo" tasks={tasks} onOpenTask={setSelectedTaskId}/>
+          <Column status="doing" title="Doing" tasks={tasks} onOpenTask={setSelectedTaskId}/>
+          <Column status="review" title="Review" tasks={tasks} onOpenTask={setSelectedTaskId}/>
+          <Column status="done" title="Done" tasks={tasks} onOpenTask={setSelectedTaskId}/>
         </div>
       </DndContext>
+
+      {/* ← 追加:開いているタスクがあるときだけモーダルを表示する */}
+      {selectedTask && (
+        <TaskDetailModal
+          task={selectedTask}
+          onClose={() => setSelectedTaskId(null)}
+        />
+      )}
+
     </div>
   );
 }

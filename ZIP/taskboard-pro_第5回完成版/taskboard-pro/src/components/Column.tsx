@@ -6,9 +6,10 @@ type Props = {
   status: TaskStatus;
   title: string;
   tasks: Task[];
+  onOpenTask: (id: string) => void;   // ← 追加
 };
 
-export function Column({ status, title, tasks }: Props) {
+export function Column({ status, title, tasks, onOpenTask  }: Props) {
   const { setNodeRef, isOver } = useDroppable({ id: status });
   const items = tasks.filter((task) => task.status === status);
 
@@ -19,7 +20,7 @@ export function Column({ status, title, tasks }: Props) {
       </h2>
       <div className="column__cards">
         {items.map((task) => (
-          <TaskCard key={task.id} task={task} />
+          <TaskCard key={task.id} task={task} onOpen={() => onOpenTask(task.id)} />
         ))}
       </div>
     </div>

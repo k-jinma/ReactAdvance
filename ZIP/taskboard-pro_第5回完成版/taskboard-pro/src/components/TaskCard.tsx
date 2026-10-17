@@ -4,9 +4,10 @@ import { useDeleteTask } from "../hooks/useDeleteTask";
 
 type Props = {
   task: Task;
+  onOpen: () => void;   // ← 追加
 };
 
-export function TaskCard({ task }: Props) {
+export function TaskCard({ task, onOpen }: Props) {
   const deleteTask = useDeleteTask();
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({ id: task.id, data: { task } });
@@ -23,6 +24,7 @@ export function TaskCard({ task }: Props) {
       ref={setNodeRef}
       style={style}
       className="task-card"
+      onClick={onOpen}   // ← 追加
       {...attributes}
       {...listeners}
     >
@@ -32,7 +34,8 @@ export function TaskCard({ task }: Props) {
           type="button"
           className="task-card__delete"
           onPointerDown={(e) => e.stopPropagation()}
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();   // ← 追加:削除ボタンのクリックで詳細が開かないようにする
             if (confirm(`「${task.title}」を削除しますか?`)) {
               deleteTask.mutate(task.id);
             }
