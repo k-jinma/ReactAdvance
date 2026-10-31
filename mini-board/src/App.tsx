@@ -1,37 +1,49 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import type { Task, TaskStatus } from "./types/task"
 import { Column } from "./components/Column"
-
-const dummyTasks: Task[] = [
-  { id: "1", title: "要件定義", status: "done" },
-  { id: "2", title: "画面設計", status: "doing" },
-  { id: "3", title: "API実装", status: "doing" },
-  { id: "4", title: "テスト", status: "todo" },
-  { id: "5", title: "リリース", status: "todo" },
-  { id: "6", title: "保守", status: "todo" },
-]
-
+import { fetchTasks } from "./lib/fetchTasks"
 
 function App() {
 
-  const [tasks, setTasks] = useState<Task[]>(dummyTasks)
+  const [tasks, setTasks] = useState<Task[]>([])
   const [title, setTitle] = useState(""); // ← 追加
-  const [status, setStatus] = useState<TaskStatus>("todo"); // ← 追加
+  const [status, setStatus] = useState<TaskStatus>("todo") // ← 追加
+  const [loading, setLoading] = useState(true); // ← 追加:読み込み中かどうか
+
+  // ← 追加:最初の描画のあとに1回だけ、タスクを取ってくる
+  useEffect(() => {
+    try{
+
+      fetchTasks().then((data) => { 
+        setTasks(data) 
+        setLoading(false) 
+      })
+
+    }catch(e){
+      console.error(e)
+
+    }finally{
+      setLoading(false)
+      
+    }
+
+  }, [])
 
   const handleAdd = () => {
-    if(!title) return
-
-    tasks.push({ id: `task-${Date.now()}`, title, status: status })
-    setTasks(tasks)
-
-    setTitle("") // ← 追加
-  }
+    if (!title) return;
+    setTasks((prev) => [...prev, { id: `task-${Date.now()}`, title, status }])
+    setTitle("")
+  };
 
   const hadleDelete = ( id: string ) => {
-    setTasks((prev) => prev.filter((task) => task.id !== id));
+    setTasks((prev) => prev.filter((task) => task.id !== id))
   }
 
-
+  // ← 追加:読み込み中は、ほかの表示の代わりにこれだけを返す
+  if (loading) {
+    return <p style={{ padding: 24 }}>読み込み中...</p>
+  }
+  
   return (
     <div style={{ padding: 24, fontFamily: "sans-serif" }}>
       <h1>mini-board</h1>
