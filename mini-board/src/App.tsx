@@ -9,11 +9,15 @@ function App() {
   const [title, setTitle] = useState("");
   const [status, setStatus] = useState<TaskStatus>("todo");
   const [loading, setLoading] = useState(true); // ← 追加:読み込み中かどうか
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetchTasks().then((data) => {
       setTasks(data);
-      setLoading(false); // ← 追加:読み込みが終わった
+    }).catch((error: unknown) => {
+      setError(error instanceof Error ? error.message : "タスクの取得に失敗しました");
+    }).finally(() => {
+      setLoading(false);
     });
   }, []);
 
@@ -29,6 +33,7 @@ function App() {
 
   // ← 追加:読み込み中は、ほかの表示の代わりにこれだけを返す
   if (loading) return <p style={{ padding: 24 }}>読み込み中...</p>;
+  if (error) return <p role="alert" style={{ padding: 24 }}>{error}</p>;
 
   return (
     <div style={{ padding: 24, fontFamily: "sans-serif" }}>

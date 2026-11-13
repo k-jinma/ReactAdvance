@@ -19,6 +19,11 @@ function wait(ms: number): Promise<void> {
 // タスクの一覧を返す関数(サーバーとの通信の代わり)
 export async function fetchTasks(): Promise<Task[]> {
   console.log("fetchTasks が呼ばれました");
-  await wait(500); // 0.5秒待つ
+  await wait(3000);
+
+  if (Math.random() < 0.3) {
+    throw new Error("タスクの取得に失敗しました");
+  }
+
   return [...dummyTasks]; // コピーした新しい配列を返す
 }
