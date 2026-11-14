@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import type { Task, TaskStatus } from "./types/task";
 import { Column } from "./components/Column";
-import { fetchTasks } from "./lib/fetchTasks";
+import { fetchTasks } from "./lib/tasksApi";
 
 function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
