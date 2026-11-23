@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import type { Task, TaskStatus } from "./types/task";
 import { Column } from "./components/Column";
-import { fetchTasks } from "./lib/tasksApi";
+import { fetchTasks, createTask, deleteTask } from "./lib/tasksApi";
 
 function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -12,6 +12,7 @@ function App() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+
     fetchTasks().then((data) => {
       setTasks(data);
     }).catch((error: unknown) => {
@@ -21,14 +22,19 @@ function App() {
     });
   }, []);
 
-  const handleAdd = () => {
+  const handleAdd = async() => {
     if (!title) return;
-    setTasks((prev) => [...prev, { id: `task-${Date.now()}`, title, status }]);
+    await createTask({ title, status }); // DB に1件追加する
+    const data = await fetchTasks(); // 一覧を取り直す
+    setTasks(data);
     setTitle("");
   };
 
-  const handleDelete = (id: string) => {
-    setTasks((prev) => prev.filter((task) => task.id !== id));
+   // ← 変更:DB から削除してから、一覧を取り直す
+  const handleDelete = async (id: string) => {
+    await deleteTask(id); // DB から1件削除する
+    const data = await fetchTasks(); // 一覧を取り直す
+    setTasks(data);
   };
 
   // ← 追加:読み込み中は、ほかの表示の代わりにこれだけを返す
